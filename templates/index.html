@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LolCalculator</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="main">
+    <table class="table table-hover table-dark">
+      <thead>
+        <tr>
+            <th scope="col">Summoner Name</th>
+            <th scope="col">Total Wins</th>
+            <th scope="col">Total Losses</th>
+            <th scope="col">Win ratio</th>
+        </tr>
+      </thead>
+      <tbody>
+      {%for summoner in summoners%}
+        <tr>
+            <td>{{summoner.name}}</td>
+            <td>{{summoner.totalWins}}</td>
+            <td>{{summoner.totalLosses}}</td>
+            <td>{{summoner.winRatio}}</td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+</div>
+</body>
+</html>

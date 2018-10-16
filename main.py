@@ -4,7 +4,9 @@ from const import get_token
 from summonerService import *
 from matchService import *
 from summoner import *
-
+from flask import Flask, render_template
+app = Flask(__name__)
+summoners = []
 
 def print_win_ratio(summoner):
     totalGames = summoner['totalWins'] + summoner['totallosses']
@@ -13,10 +15,24 @@ def print_win_ratio(summoner):
             winratio = (totalGames / summoner['totallosses']) * 10
         else:
             winratio = 100
-        print("{0} won {1} and lost {2} games with you - with a {3} win ratio"
-              .format(summoner['summonerName'], summoner['totalWins'], summoner['totallosses'], winratio) )
+
+        new_summoner = Summoner(name=summoner['summonerName'],
+                                totalWins=summoner['totalWins'],
+                                totalLosses=summoner['totallosses'],
+                                winRatio=winratio)
+
+        #add summoner to list
+        summoners.append(new_summoner)
+
+        #print summoner
+        new_summoner.get_summoner()
 
 
+
+        # print("{0} won {1} and lost {2} games with you - with a {3} win ratio"
+        #       .format(summoner['summonerName'], summoner['totalWins'], summoner['totallosses'], winratio) )
+
+    
 
 def online_calculator(summonerName):
     arrayMatch = {}
@@ -35,9 +51,10 @@ def online_calculator(summonerName):
     save_file(arrayMatch)
 
 def offline_calculator(summonerName):
-    summoner = get_summoner_by_name(summonerName)
-    accountId = summoner['accountId']
-    print(summoner['accountId'])
+    # summoner = get_summoner_by_name(summonerName)
+    # accountId = summoner['accountId']
+    accountId = 21855707
+    # print(summoner['accountId'])
 
     arrayMatch = {}
     arrayMatch['match'] = []
@@ -188,6 +205,13 @@ try:
     #
     # print(len(arrayMatch))
     # print(arrayMatch)
+
+    @app.route("/", methods=["GET"])
+    def getCalculatorPage():
+        return render_template("index.html", summoners=summoners)
+
+    if __name__ == "__main__":
+        app.run()
 
 except Exception as e:
     print("error")
